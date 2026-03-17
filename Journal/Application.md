@@ -2,7 +2,7 @@ To write a simple UUPS upgradeable contract you need 4 key things:
 
 1. imports 
 - ```
-    "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol"
+    import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol"
      import "@openzeppelin/contracts-upgradeable/acces/OwnableUpgradeable.sol"
      import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol" 
     ```
