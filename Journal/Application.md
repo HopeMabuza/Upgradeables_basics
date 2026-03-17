@@ -12,9 +12,9 @@ To write a simple UUPS upgradeable contract you need 4 key things:
 
 3. use libraries in the initializer
     ```
-    function initializer() public Initializable {
+    function initialise() public initializer {
         __Ownable_init();
-        __UUPSUgradeale_nit();
+        __UUPSUgradeale_init();
     }
     ```
 
@@ -25,11 +25,15 @@ To write a simple UUPS upgradeable contract you need 4 key things:
 
 A simple deploy script must consist of the following:
 
+IMPORTANT: `const {ethers, upgrades} = require("hardhat);`
+
 1. deploy first implementaion contract
    `const ImplemetaionV1 = await ethers.getContractFactory("MyContractV1");`
 
 2. deploy proxy contract
     `const proxy = await upgrades.deployProxy( ImplementaionV1, [], {initializer: "initialize", kind : "uups"});`
+3. to get address of implementaion contract
+    `const V1Address = await upgrades.erc1967.getImplementationAddress(proxy.getAddress());`
 
 3. when we upgrade you a new implementaion contract
     `const ImplemetaionV2 = ait ethers.getContractFactory("MyContractV2");`
