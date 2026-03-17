@@ -35,12 +35,18 @@ EIP-1967 slots
 
 Storage gaps
     - reserving storage for future updates, usually 50 slots
+    - it is an openzepellin library that reserves space for future updates and for every state variable you add, you have you decrease the gap size.
+    ```
+        //initial gap
+        uint256[50] private __gap;
 
-
+        //when adding new state variables
+        uint256[48] private __gap;
+    ```
 
 As we discussed above, the proxy contract will have administrative functions and the implementaion contract will have application functions.
 Meaning in the proxy we have functions that can only be called by the admin.
-ANd in the implementaion we have functions that can only be called by the user.
+And in the implementaion we have functions that can only be called by the user.
 
 But what happens if both contracts have functions with the same name, which function will be called by the user, and which will be called by the admin.
 This problem is called the function selector collision.
@@ -85,6 +91,16 @@ Because if the an attacker initailizes the contract, they will be the owner and 
 
 We even have libraries for ERC20 upgradeable contracts, inside the initalizer we can have `__ERC20_init__("tokenName", "tokenSymbol")`, this replaces the constructor in upgradeable contracts. 
 
+We have the function below to replace the constructor:
+    ```
+        ///@custom:oz-upgrade-unsafe-allow constructor
+        constructor (){
+            _disableInitializer();
+        }
+    ```
+This function protects your contract from attackers, when you deploy your proxy contract, the implementation contract is also deployed and anyone can access it on chain.
+The attacker may try to interact with the implementation contract direclty, and if i has something like, `owner = msg.sender;`. The attacker will become the owner.
+Now they have the authority to add new functions to take sensitive information or add maliciuos logic in the contract
 
 
 
