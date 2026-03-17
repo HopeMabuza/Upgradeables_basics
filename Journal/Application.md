@@ -10,15 +10,30 @@ To write a simple UUPS upgradeable contract you need 4 key things:
 2. inherite all imported contracts in your contract in the correct sequence
     `contract MyContract is Initializable, OwnableUpgradeable, UUPSUgradeable{}`
 
-3. use libraries in the initializer
+3. add contsructor that restricts an outsider to access the initializer and change the logic
+    ```
+         /// @custom:oz-upgrades-unsafe-allow constructor
+        constructor() {
+            _disableInitializers();
+        }
+    ```
+4. if you have to initialize new state in the upgraded contract add reinitializer
+    ```
+        /// @custom:oz-upgrades-validate-as-initializer
+        function reinitialize() public reinitializer(2){
+        __Ownable_init_unchained(); 
+            //new state
+        }
+    ```
+
+5. use libraries in the initializer
     ```
     function initialise() public initializer {
         __Ownable_init();
         __UUPSUgradeale_init();
     }
     ```
-
-4. Never forget the upgrade logic function
+6. Never forget the upgrade logic function
     ` function _authorizeUpgrade(address newImplementaion) internal override onlyOwner{} `
     only the owner can call this function. It comes with the UUPSUpgradeable library.
 
