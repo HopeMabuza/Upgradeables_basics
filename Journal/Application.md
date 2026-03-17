@@ -68,3 +68,14 @@ IMPORTANT: `const {ethers, upgrades} = require("hardhat);`
     ```
 
 Now you can interact with your contract normally
+
+
+Writing tests for upgradeable contracts
+
+When writing tests for upgradeable contracts you need to answer these questions below:
+- Did the storage survive the upgrade?
+- Did the old behaviour still work?
+- Is the new behaviour added safely?
+- Can it be upgraded by the owner only?
+- Can initialized be abused?
+- are the functions working as intended?
