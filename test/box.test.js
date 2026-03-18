@@ -93,8 +93,8 @@ describe ("Box Upgradeable Tests", function (){
             const _proxy = await upgrades.upgradeProxy(proxyAddress, V2);
             await _proxy.waitForDeployment();
 
-            await _proxy.initialize2();
-            await expect(_proxy.initialize2()).to.be.revertedWith('Initializable: contract is already initialized');
+            await _proxy.initialize();
+            await expect(_proxy.initialize()).to.be.revertedWith('Initializable: contract is already initialized');
         });
     });
   
